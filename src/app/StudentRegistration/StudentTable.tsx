@@ -3,9 +3,11 @@ import { StudentFormProps } from './StudentForm';
 
 type StudentTableProps = {
   studentData: StudentFormProps[];
+  onDelete: (index: number) => void;
+  onEdit: (index: number) => void;
 };
 
-const StudentTable = ({ studentData }: StudentTableProps) => {
+const StudentTable = ({ studentData, onDelete, onEdit }: StudentTableProps) => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
       <div className="overflow-x-auto rounded-lg shadow ring-1 ring-gray-300">
@@ -29,18 +31,16 @@ const StudentTable = ({ studentData }: StudentTableProps) => {
                 <td className="px-4 py-3 whitespace-nowrap capitalize">{student.gender}</td>
                 <td className="px-4 py-3 whitespace-nowrap">{student.number}</td>
                 <td className="px-2 py-3 text-center">
-                  <button className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md transition-all">
-                    Delete
-                  </button>
+                  <button
+      onClick={() => onDelete(index)}
+      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md transition-all"
+    >
+      Delete
+    </button>
                 </td>
                 <td className="px-2 py-3 text-center">
-                  <button className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md transition-all">
+                  <button onClick={()=>onEdit(index)} className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md transition-all">
                     Edit
-                  </button>
-                </td>
-                <td className="px-2 py-3 text-center">
-                  <button className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md transition-all">
-                    View
                   </button>
                 </td>
               </tr>
