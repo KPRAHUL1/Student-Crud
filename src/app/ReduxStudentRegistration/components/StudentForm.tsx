@@ -1,8 +1,10 @@
 'use client'
-import React from 'react'
-import { addStudent } from "../../../todo/todoSlice";
+import React, { useEffect } from 'react'
+import { addStudent, updateStudent } from "../../../todo/todoSlice";
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 export type StudentFormProps = {
+  id?: number;
   name: string;
   email: string;
   birthDate: string;
@@ -10,8 +12,16 @@ export type StudentFormProps = {
   phone: string;
   city: string;
 };
+  interface RootState {
+    student: {
+      editableStudent: StudentFormProps | null;
+    };
+  }
 const StudentForm = () => {
   const dispatch = useDispatch();
+
+  const editableStudent = useSelector((state: RootState) => state.student.editableStudent);
+
   const [formData, setFormData] = React.useState<StudentFormProps>({
     name: '',
     email: '',
@@ -20,23 +30,25 @@ const StudentForm = () => {
     phone:'',
     city:'',
   })
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!formData.name || !formData.email || !formData.birthDate) {
-      alert("Please fill all required fields");
-      return;
-    }
 
-    dispatch(addStudent(formData));
-    setFormData({
-      name: '',
-      email: '',
-      birthDate: '',
-      gender:'',
-      phone:'',
-      city:'',
-    });
+useEffect(() => {
+  if (editableStudent) {
+    setFormData(editableStudent);
   }
+}, [editableStudent]);
+
+
+const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  if (editableStudent) {
+    dispatch(updateStudent(formData));
+  } else {
+    dispatch(addStudent(formData));
+  }
+  setFormData({ name: '', email: '', birthDate: '', gender: '', phone: '', city: '' });
+};
+
+
   return (
     <div className="max-w-3xl mx-auto p-8 bg-white shadow-lg rounded-lg mt-12">
       <h1 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Student Admission Form</h1>
@@ -109,12 +121,13 @@ const StudentForm = () => {
         </div>
 
         <div className="pt-4">
-          <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200"
-          >
-            Submit
-          </button>
+         <button
+  type="submit"
+  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200"
+>
+  {editableStudent !== null ? 'Update' : 'Submit'}
+</button>
+
         </div>
       </form>
     </div>
