@@ -1,8 +1,11 @@
 'use client'
+import { deleteStudent, setEditableStudent, updateStudent } from '@/todo/todoSlice';
 import React from 'react'
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux'
 
 const StudentTable = () => {
+    const dispatch = useDispatch();
   type Student = {
     name: string;
     email: string;
@@ -17,6 +20,17 @@ const StudentTable = () => {
       students: Student[];
     };
   };
+  // const handleEdit = (index: number) => {
+  // dispatch(updateStudent(index))
+  //   console.log("Edit student at index:", index);
+  // }
+  const handleDelete = (index: number) => {
+    dispatch(deleteStudent(index));
+  }
+  const handleEdit = (index: number) => {
+  const student = students[index];
+  dispatch(setEditableStudent(student));
+};
   
     const students = useSelector((state: RootState) => state.student.students)
 
@@ -50,8 +64,8 @@ const StudentTable = () => {
                   <td className="px-6 py-4">{student.phone}</td>
                   <td className="px-6 py-4">{student.city}</td>
                   <td className="px-6 py-4">
-                    <button className="text-blue-600 hover:text-blue-800 mr-2">Edit</button>
-                    <button className="text-red-600 hover:text-red-800">Delete</button>
+                    <button className="text-blue-600 hover:text-blue-800 mr-2" onClick={()=>handleEdit(index)}>Edit</button>
+                    <button className="text-red-600 hover:text-red-800" onClick={() => handleDelete(index)}>Delete</button>
                   </td>
                 </tr>
               ))
