@@ -1,5 +1,5 @@
 'use client'
-import { deleteStudent, setEditableStudent, updateStudent } from '@/todo/todoSlice';
+import { deleteStudent, setEditableStudent } from '@/todo/todoSlice';
 import React from 'react'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux'
@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 const StudentTable = () => {
     const dispatch = useDispatch();
   type Student = {
+    id?:number;
     name: string;
     email: string;
     birthDate: string;
@@ -20,13 +21,10 @@ const StudentTable = () => {
       students: Student[];
     };
   };
-  // const handleEdit = (index: number) => {
-  // dispatch(updateStudent(index))
-  //   console.log("Edit student at index:", index);
-  // }
-  const handleDelete = (index: number) => {
-    dispatch(deleteStudent(index));
-  }
+const handleDelete = (index: number) => {
+  const studentId = students[index].id;
+  dispatch(deleteStudent(studentId));
+};
   const handleEdit = (index: number) => {
   const student = students[index];
   dispatch(setEditableStudent(student));
