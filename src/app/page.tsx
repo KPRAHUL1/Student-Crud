@@ -13,7 +13,7 @@ export default function Home() {
         <Link href="/ReduxStudentRegistration">
           <button className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded">Redux CRUD</button>
         </Link>
-        <Link href="/student-context">
+        <Link href="/UseContextRegist5ration">
           <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Context CRUD</button>
         </Link>
       </div>
